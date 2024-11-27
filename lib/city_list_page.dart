@@ -1,5 +1,6 @@
 // Suggested code may be subject to a license. Learn more: ~LicenseLog:269161092.
 import 'package:flutter/material.dart';
+import 'city_detail_page.dart';
 
 class CityListPage extends StatelessWidget {
   const CityListPage({
@@ -33,8 +34,12 @@ class CityListPage extends StatelessWidget {
               subtitle: const Text('政令指定都市'),
               trailing: const Icon(Icons.navigate_next),
               onTap: () {
-                //TODO:詳細画面に遷移する
-              },
+                Navigator.of(context).push<void>(
+                MaterialPageRoute(
+                builder: (context) => const CityDetailPage(),
+                ),
+                );
+             },
             ),
         ],
       ),
