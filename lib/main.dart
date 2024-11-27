@@ -9,17 +9,25 @@ class MyApp extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Flutter Demo',
-      home: Scaffold(
-        //AppBarにconstはつけられない
-        //AppBarは高さ調節とかがあるからコンパイル時に確定できない値(
-        //上位にConstをつけない
-        appBar: AppBar(title: const Text('市区町村一覧'),
-        ),
-        body: const Center(
-          child: Text('市区町村の一覧画面です'),
-        ),
+      home: CityListPage(),
+    );
+  }
+}
+
+class CityListPage extends StatelessWidget {
+  const CityListPage({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('市区町村一覧'),
+      ),
+      body: const Center(
+        child: Text('市区町村の一覧画面です'),
       ),
     );
   }
