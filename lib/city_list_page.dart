@@ -30,6 +30,7 @@ class CityListPage extends StatelessWidget {
           for(final city in cities)
             ListTile(
               title: Text(city),
+              subtitle: const Text('政令指定都市'),
               trailing: const Icon(Icons.navigate_next),
               onTap: () {
                 //TODO:詳細画面に遷移する
