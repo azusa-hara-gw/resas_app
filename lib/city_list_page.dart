@@ -5,7 +5,6 @@ import 'package:myapp/env.dart';
 import 'city_detail_page.dart';
 import 'package:http/http.dart' as http;
 
-
 class CityListPage extends StatefulWidget {
   const CityListPage({
     super.key,
@@ -30,10 +29,9 @@ class _CityListPageState extends State<CityListPage> {
       'X-API-KEY': Env.resasApiKey,
     };
     _future = http
-              .get(Uri.https(host, endpoint), headers: headers)
-              .then((res) => res.body);
+        .get(Uri.https(host, endpoint), headers: headers)
+        .then((res) => res.body);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +61,8 @@ class _CityListPageState extends State<CityListPage> {
                 child: CircularProgressIndicator(),
               );
             }
+            print(snapshot);
+            
             return ListView(
               children: [
                 for (final city in cities)
