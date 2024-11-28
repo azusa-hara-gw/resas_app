@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/env.dart';
 
 import 'city_detail_page.dart';
+import 'package:http/http.dart' as http;
 
 class CityListPage extends StatefulWidget {
   const CityListPage({
@@ -12,13 +14,18 @@ class CityListPage extends StatefulWidget {
 }
 
 class _CityListPageState extends State<CityListPage> {
-  late Future<void> _future;
+  late Future<String> _future;
 
   // 画面を開いたときの処理
   @override
   void initState() {
     super.initState();
-    _future = Future.delayed(const Duration(seconds: 3));
+    const host = 'opendata.resas-portal.go.jp';
+    const endopoint = 'api/v1/cities';
+    final headers = {'X-API-KEY': Env.resasApiKey};
+    _future = http
+        .get(Uri.https(host, endopoint), headers: headers)
+        .then((res) => res.body);
   }
 
   @override
@@ -40,7 +47,7 @@ class _CityListPageState extends State<CityListPage> {
       appBar: AppBar(
         title: const Text('市区町村一覧'),
       ),
-      body: FutureBuilder<void>(
+      body: FutureBuilder<String>(
           future: _future,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -48,6 +55,7 @@ class _CityListPageState extends State<CityListPage> {
                 child: CircularProgressIndicator(),
               );
             }
+            print(snapshot.data);
             return ListView(
               children: [
                 for (final city in cities)
