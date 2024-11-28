@@ -1,6 +1,10 @@
 // Suggested code may be subject to a license. Learn more: ~LicenseLog:269161092.
 import 'package:flutter/material.dart';
+import 'package:myapp/env.dart';
+
 import 'city_detail_page.dart';
+import 'package:http/http.dart' as http;
+
 
 class CityListPage extends StatefulWidget {
   const CityListPage({
@@ -13,14 +17,23 @@ class CityListPage extends StatefulWidget {
 
 class _CityListPageState extends State<CityListPage> {
   //lateは初期値を与えないときに使う
-  late Future<void> _future;
+  late Future<String> _future;
 
   //画面を開いた時の処理
+  //3秒まってその間にresasapiから
   @override
   void initState() {
     super.initState();
-    _future = Future.delayed(const Duration(seconds: 3));
+    const host = 'opendata.resas-portal.go.jp';
+    const endpoint = '/api/v1/cities';
+    final headers = {
+      'X-API-KEY': Env.resasApiKey,
+    };
+    _future = http
+              .get(Uri.https(host, endpoint), headers: headers)
+              .then((res) => res.body);
   }
+
 
   @override
   Widget build(BuildContext context) {
