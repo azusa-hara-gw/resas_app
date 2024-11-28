@@ -9,10 +9,10 @@ class CityDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-         title: Text(city),
+        title: Text(city),
       ),
       body: Center(
-        child: Text('${city}の詳細画面です'),
+        child: Text('$cityの詳細画面です'),
       ),
     );
   }
