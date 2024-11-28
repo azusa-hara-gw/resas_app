@@ -42,6 +42,7 @@ class CityListPage extends StatelessWidget {
                   title: Text(city),
                   subtitle: const Text('政令指定都市'),
                   trailing: const Icon(Icons.navigate_next),
+                  //詳細に飛ぶための処理
                   onTap: () {
                     Navigator.of(context).push<void>(
                     MaterialPageRoute(
