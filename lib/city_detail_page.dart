@@ -55,10 +55,16 @@ class _CityDetailPageState extends State<CityDetailPage> {
             itemCount: items.length,
             itemBuilder: (context, index) {
               final item = items[index];
-              return ListTile(
-                title: Text('${item['year']}年'),
+              return Card(
+                child: ListTile(
+                  title: Text(
+                    '${item['year']}年',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
                 trailing: Text(
                   '${(item['value'] as int) * 1000}',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
                   ),
               );
             },
