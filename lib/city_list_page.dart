@@ -1,4 +1,6 @@
 // Suggested code may be subject to a license. Learn more: ~LicenseLog:269161092.
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:myapp/env.dart';
 
@@ -52,7 +54,7 @@ class _CityListPageState extends State<CityListPage> {
       appBar: AppBar(
         title: const Text('市区町村一覧'),
       ),
-      body: FutureBuilder<void>(
+      body: FutureBuilder<String>(
           future: _future,
           //３秒間の中の処理、builder
           builder: (context, snapshot) {
@@ -61,19 +63,21 @@ class _CityListPageState extends State<CityListPage> {
                 child: CircularProgressIndicator(),
               );
             }
-            print(snapshot);
-            
+            //jsondecodeはnullを許容しないのでdata!で！をつける
+            final json = jsonDecode(snapshot.data!)['result'] as List;
+            //resasのresultの配列がString＋何がしというセットなので以下の構文を追加
+            final items = json.cast<Map<String, dynamic>>();
             return ListView(
               children: [
-                for (final city in cities)
+                for (final city in items)
                   ListTile(
-                    title: Text(city),
+                    title: Text(city['cityName']),
                     subtitle: const Text('政令指定都市'),
                     trailing: const Icon(Icons.navigate_next),
                     onTap: () {
                       Navigator.of(context).push<void>(
                         MaterialPageRoute(
-                          builder: (context) => CityDetailPage(city: city),
+                          builder: (context) => CityDetailPage(city: city['cityName']),
                         ),
                       );
                     },
