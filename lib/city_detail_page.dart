@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:myapp/city.dart';
+import 'package:myapp/annual_municipality_tax.dart';
 
 import 'env.dart';
 
@@ -52,21 +53,17 @@ class _CityDetailPageState extends State<CityDetailPage> {
               jsonDecode(snapshot.data!)['result'] as Map<String, dynamic>;
           final data = result['data'] as List;
           final items = data.cast<Map<String, dynamic>>();
+          final taxes = items.map(AnnualMunicipalityTax.fromJson).toList();
           return ListView.separated(
-            itemCount: items.length,
+            itemCount: taxes.length,
             itemBuilder: (context, index) {
-              final item = items[index];
-              return Card(
-                child: ListTile(
-                  title: Text(
-                    '${item['year']}年',
-                    style: Theme.of(context).textTheme.bodyMedium,
+              final tax = taxes[index];
+               return ListTile(
+               title: Text('${tax.year}年'),
+               trailing: Text(
+                 _formatTaxLabel(tax.value),
+                 style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  trailing: Text(
-                    _formatTaxLabel(item['value'] as int),
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                ),
               );
             },
             //各値ごとに下線をつけれるようにするseparatorBuilder
