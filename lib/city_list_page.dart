@@ -1,7 +1,9 @@
+// Suggested code may be subject to a license. Learn more: ~LicenseLog:1860461147.
 // Suggested code may be subject to a license. Learn more: ~LicenseLog:269161092.
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:myapp/city.dart';
 import 'package:myapp/env.dart';
 
 import 'city_detail_page.dart';
@@ -52,25 +54,27 @@ class _CityListPageState extends State<CityListPage> {
             }
             //jsondecodeはnullを許容しないのでdata!で！をつける
             final json = jsonDecode(snapshot.data!)['result'] as List;
-            //resasのresultの配列がString＋何がしというセットなので以下の構文を追加
             final items = json.cast<Map<String, dynamic>>();
+            final cities = items.map((item) => City.fromJson(item)).toList();
             //ListViewbuilderでパフォーマンス向上する
             return ListView.builder(
-              itemCount: items.length,
-              itemBuilder: (context, index){
-                final city = items[index];
+              itemCount: cities.length,
+              itemBuilder: (context, index) {
+                final city = cities[index];
                 return ListTile(
-                    title: Text(city['cityName']),
-                    subtitle: const Text('政令指定都市'),
-                    trailing: const Icon(Icons.navigate_next),
-                    onTap: () {
-                      Navigator.of(context).push<void>(
-                        MaterialPageRoute(
-                          builder: (context) => CityDetailPage(city: city['cityName']),
+                  title: Text(city.cityName),
+                  subtitle: const Text('政令指定都市'),
+                  trailing: const Icon(Icons.navigate_next),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => CityDetailPage(
+                          city: city.cityName,
                         ),
-                      );
-                    },
-                  );
+                      ),
+                    );
+                  },
+                );
               },
             );
           }),
