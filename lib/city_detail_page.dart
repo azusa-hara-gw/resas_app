@@ -56,13 +56,10 @@ class _CityDetailPageState extends State<CityDetailPage> {
             itemBuilder: (context, index) {
               final item = items[index];
               return ListTile(
-                title: Text(item['year'].toString()),
+                title: Text('${item['year']}年'),
                 trailing: Text(
-                  item['value'].toString(),
-                  style: const TextStyle(
-                    fontSize: 14, // 文字サイズを20に設定
+                  '${(item['value'] as int) * 1000}',
                   ),
-                ),
               );
             },
             //各値ごとに下線をつけれるようにするseparatorBuilder
