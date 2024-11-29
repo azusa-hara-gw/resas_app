@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:myapp/city.dart';
 
 import 'env.dart';
@@ -61,11 +62,11 @@ class _CityDetailPageState extends State<CityDetailPage> {
                     '${item['year']}年',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
-                trailing: Text(
-                  '${(item['value'] as int) * 1000}',
+                  trailing: Text(
+                    _formatTaxLabel(item['value'] as int),
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  ),
+                ),
               );
             },
             //各値ごとに下線をつけれるようにするseparatorBuilder
@@ -78,5 +79,13 @@ class _CityDetailPageState extends State<CityDetailPage> {
         },
       ),
     );
+  }
+
+  // 税額をフォーマットして表示するメソッド
+  String _formatTaxLabel(int value) {
+    // NumberFormatを使用して3桁ごとにカンマを追加する
+    final formatted = NumberFormat('#,###').format(value * 1000);
+    // フォーマットされた数値に「円」を追加して返す
+    return '$formatted円';
   }
 }
