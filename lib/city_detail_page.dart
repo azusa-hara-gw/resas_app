@@ -51,7 +51,7 @@ class _CityDetailPageState extends State<CityDetailPage> {
               jsonDecode(snapshot.data!)['result'] as Map<String, dynamic>;
           final data = result['data'] as List;
           final items = data.cast<Map<String, dynamic>>();
-          return ListView.builder(
+          return ListView.separated(
             itemCount: items.length,
             itemBuilder: (context, index) {
               final item = items[index];
@@ -59,6 +59,12 @@ class _CityDetailPageState extends State<CityDetailPage> {
                 title: Text(item['year'].toString()),
                 trailing: Text(item['value'].toString()),
               );
+            },
+            //各値ごとに下線をつけれるようにするseparatorBuilder
+            //Dividorを使うと間に要素を入れれる。デフォは線
+            //なみかっこ＋returnと=>は同義
+            separatorBuilder: (BuildContext context, int index) {
+              return const Divider();
             },
           );
         },
