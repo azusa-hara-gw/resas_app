@@ -67,10 +67,12 @@ class _CityListPageState extends State<CityListPage> {
             final json = jsonDecode(snapshot.data!)['result'] as List;
             //resasのresultの配列がString＋何がしというセットなので以下の構文を追加
             final items = json.cast<Map<String, dynamic>>();
-            return ListView(
-              children: [
-                for (final city in items)
-                  ListTile(
+            //ListViewbuilderでパフォーマンス向上する
+            return ListView.builder(
+              itemCount: items.length,
+              itemBuilder: (context, index){
+                final city = items[index];
+                return ListTile(
                     title: Text(city['cityName']),
                     subtitle: const Text('政令指定都市'),
                     trailing: const Icon(Icons.navigate_next),
@@ -81,8 +83,8 @@ class _CityListPageState extends State<CityListPage> {
                         ),
                       );
                     },
-                  ),
-              ],
+                  );
+              },
             );
           }),
     );
